@@ -1,7 +1,7 @@
 from selenium import webdriver
-import time
 from PIL import Image
 from io import BytesIO
+import time
 
 
 def fullpage_screenshot(driver, file, scroll_delay=0.3):
@@ -36,12 +36,14 @@ def fullpage_screenshot(driver, file, scroll_delay=0.3):
     stitched_image.save(file)
 
 
-options = webdriver.ChromeOptions()
-options.add_argument('--ignore-certificate-errors')
-options.add_argument("--test-type")
-driver = webdriver.Chrome(chrome_options=options)
- 
-driver.get('http://python.org')
-fullpage_screenshot(driver, 'fp1_screenshot.png')
- 
-driver.close()
+def get_screenshot_from_url(URL, FILENAME):
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument("--test-type")
+    with webdriver.Chrome(chrome_options=options) as driver:
+        driver.get(URL)
+        fullpage_screenshot(driver, FILENAME)
+
+
+if __name__ == '__main__':
+    get_screenshot_from_url('http://www.python.org', 'fp1_screenshot.png')
